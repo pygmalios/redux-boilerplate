@@ -2,7 +2,8 @@ let actionCreators = {};
 
 let actions = {
   ENTITY: {
-    ADD: 'ADD_ENTITY'
+    ADD: 'ADD_ENTITY',
+    REMOVE: 'REMOVE_ENTITY'
   },
   COMPONENT: {
     APP: {
@@ -16,6 +17,13 @@ let actions = {
 actionCreators[actions.ENTITY.ADD] = function(parameter) {
   return {
     type: actions.ENTITY.ADD,
+    parameter: parameter
+  }
+}
+
+actionCreators[actions.ENTITY.REMOVE] = function(parameter) {
+  return {
+    type: actions.ENTITY.REMOVE,
     parameter: parameter
   }
 }

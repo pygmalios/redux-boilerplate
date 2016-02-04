@@ -6,8 +6,6 @@ let defaultState = {
 
 export default (state = defaultState, action) => {
 
-  console.log('entity reducer', action);
-
   let nextState = Object.assign({}, state);
 
   switch(action.type) {

@@ -6,14 +6,17 @@ let defaultState = {
 
 export default (state = defaultState, action) => {
 
-  console.log('entity reducer', action);
-
   let nextState = Object.assign({}, state);
 
   switch(action.type) {
 
     case actions.ENTITY.ADD: {
       nextState.data.push(action.parameter);
+      return nextState;
+    }
+
+    case actions.ENTITY.REMOVE: {
+      nextState.data.splice(action.parameter.index, 1);
       return nextState;
     }
 
