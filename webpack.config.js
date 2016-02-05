@@ -1,4 +1,5 @@
 var webpack = require('webpack');
+var BowerWebpackPlugin = require('bower-webpack-plugin');
 
 var argv = require('minimist')(process.argv.slice(2));
 console.dir(argv);
@@ -13,9 +14,29 @@ var distConfig = {
   module: {
     loaders: {
       jsx: ['babel-loader?'+JSON.stringify({presets:['es2015','react']})],
-      sass: ["style","css","sass?indentedSyntax"]
+      sass: ["style","css","sass?indentedSyntax"],
+      scss: {
+        test: /\.scss$/,
+        loaders: ["style","css","sass"]
+      },
+      commonLoaders: [
+        {
+          test: /\.(png|jpg|gif|woff|woff2)$/,
+          loader: 'url-loader?limit=8192'
+        },
+        {
+          test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          loader: "url-loader?limit=10000&mimetype=application/font-woff"
+        },
+        {
+          test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/,
+          loader: "file-loader"
+        }
+      ]
     }
-  }
+  },
+
+  plugins: [new BowerWebpackPlugin()]
 }
 
 var devConfig = {
@@ -26,7 +47,7 @@ var devConfig = {
 
   plugins: [
     new webpack.HotModuleReplacementPlugin()
-  ],
+  ].concat(distConfig.plugins),
 
   module: {
     loaders: {
@@ -70,9 +91,11 @@ var config = {
       {
         test: /\.sass$/,
         loaders: (env.isDev() ? devConfig.module.loaders.sass : distConfig.module.loaders.sass)
-      }
+      },
 
-    ]
+      distConfig.module.loaders.scss
+
+    ].concat(distConfig.module.loaders.commonLoaders)
   },
 };
 

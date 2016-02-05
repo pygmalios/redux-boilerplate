@@ -1,0 +1,19 @@
+{
+  "name": "redux-boilerplate",
+  "version": "0.0.0",
+  "homepage": "https://github.com/pygmalios/redux-boilerplate",
+  "authors": [
+    "Matej Šima <matej.sima@gmail.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bootstrap-sass": "~3.3.6"
+  }
+}

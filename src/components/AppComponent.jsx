@@ -1,5 +1,7 @@
 import React from 'react';
 
+window.jQuery = window.$ = require('jquery');
+require('bootstrap-sass');
 require('styles/AppComponent.sass');
 
 class App extends React.Component {
