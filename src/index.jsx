@@ -6,7 +6,7 @@ import { Provider, connect } from 'react-redux';
 import store from './store.jsx'
 import { actionCreators } from 'actions/index.jsx';
 
-import App from 'components/AppComponent.jsx';
+import App from 'containers/AppComponent.jsx';
 
 let mapStateToProps = (state) => {
   return {
