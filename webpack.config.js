@@ -51,7 +51,7 @@ var devConfig = {
 
   module: {
     loaders: {
-      jsx: ['react-hot'].concat(distConfig.module.loaders.jsx),
+      jsx: ['react-hot'].concat(distConfig.module.loaders.jsx).concat(['flowcheck']),
       sass: ["style","css?sourceMap","sass?indentedSyntax&sourceMap"]
     }
   }
