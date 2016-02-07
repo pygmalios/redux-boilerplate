@@ -5,8 +5,21 @@ var argv = require('minimist')(process.argv.slice(2));
 console.dir(argv);
 
 var env = {
-  isDev: () => argv.dev == true
+  isDev: () => argv.dev == true,
+  name: argv.env
 }
+
+var fail = (message) => {
+  throw new Error(message)
+}
+
+var define = {
+  CONFIG: JSON.stringify((
+    require('./environments.config.js')[env.name] || fail(`Environment ${env.name} does not exist in environments.config.js`)
+  ))
+}
+
+console.log('define', define);
 
 var distConfig = {
   entry: ['./src/index.jsx'],
@@ -36,7 +49,10 @@ var distConfig = {
     }
   },
 
-  plugins: [new BowerWebpackPlugin()]
+  plugins: [
+    new BowerWebpackPlugin(),
+    new webpack.DefinePlugin(define)
+  ]
 }
 
 var devConfig = {
@@ -46,7 +62,9 @@ var devConfig = {
   ].concat(distConfig.entry),
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin()
+    new webpack.HotModuleReplacementPlugin(/(config)/, () => {
+      return 4
+    })
   ].concat(distConfig.plugins),
 
   module: {
