@@ -3,7 +3,7 @@ import { Route } from 'react-router';
 
 import Test2 from 'components/Test2Component.jsx';
 
-export default (ConnectedApp) => {
+export default (ConnectedApp, store) => {
   return (
     <Route path="/" component={ConnectedApp}>
       <Route path="test" component={Test2}>

@@ -24,7 +24,7 @@ let mapDispatchToProps = (dispatch) => {
 
 let ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
 
-let routes = RoutesFactory(ConnectedApp);
+let routes = RoutesFactory(ConnectedApp, store);
 
 ReactDOM.render(
   (
