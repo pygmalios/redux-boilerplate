@@ -88,7 +88,8 @@ var config = {
 
   devServer: {
     contentBase: './src/',
-    hot: env.isDev()
+    hot: env.isDev(),
+    historyApiFallback: true
   },
 
   resolve: {

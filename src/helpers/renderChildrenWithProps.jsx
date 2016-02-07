@@ -7,7 +7,7 @@ import React from 'react';
  */
 function renderChildrenWithProps(component: React.Component) {
   return React.Children.map(component.props.children, (child) => {
-    return React.cloneElement(child, childComponentProps);
+    return React.cloneElement(child, component.props.children);
   });
 }
 

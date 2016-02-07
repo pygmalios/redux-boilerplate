@@ -1,6 +1,11 @@
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
+import { createHistory } from 'history';
+import { syncHistory } from 'react-router-redux';
 import combinedReducers from 'reducers/index.jsx';
 
-let store = createStore(combinedReducers);
+let history = createHistory();
+let createStoreWithMiddleware = applyMiddleware(syncHistory(history))(createStore);
 
-export default store;
+let store = createStoreWithMiddleware(combinedReducers);
+
+export { history, store };

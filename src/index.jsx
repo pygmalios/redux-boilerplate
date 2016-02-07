@@ -2,9 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { Provider, connect } from 'react-redux';
+import { Router } from 'react-router';
 
-import store from './store.jsx'
+import { store, history } from './store.jsx'
 import { actionCreators } from 'actions/index.jsx';
+
+import RoutesFactory from './routes.jsx';
 
 import App from 'containers/AppComponent.jsx';
 
@@ -21,10 +24,14 @@ let mapDispatchToProps = (dispatch) => {
 
 let ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
 
+let routes = RoutesFactory(ConnectedApp);
+
 ReactDOM.render(
   (
     <Provider store={store}>
-      <ConnectedApp />
+      <Router history={history}>
+        {routes}
+      </Router>
     </Provider>
   ),
   document.getElementById('app')
