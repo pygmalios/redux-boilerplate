@@ -5,17 +5,17 @@ var argv = require('minimist')(process.argv.slice(2));
 console.dir(argv);
 
 var env = {
-  isDev: () => argv.dev == true,
+  isDev: function() { return argv.dev == true },
   name: argv.env
 }
 
-var fail = (message) => {
+var fail = function(message) {
   throw new Error(message)
 }
 
 var define = {
   CONFIG: JSON.stringify((
-    require('./environments.config.js')[env.name] || fail(`Environment ${env.name} does not exist in environments.config.js`)
+    require('./environments.config.js')[env.name] || fail('Environment '+ env.name + ' does not exist in environments.config.js')
   ))
 }
 
@@ -62,9 +62,6 @@ var devConfig = {
   ].concat(distConfig.entry),
 
   plugins: [
-    new webpack.HotModuleReplacementPlugin(/(config)/, () => {
-      return 4
-    })
   ].concat(distConfig.plugins),
 
   module: {
