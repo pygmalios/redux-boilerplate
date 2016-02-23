@@ -6,7 +6,11 @@
   "scripts": {
     "clean": "rm -rf dist",
     "copy": "copyfiles -f ./src/index.html ./dist",
-    "test": "karma start karma.conf.js --env=test",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit:watch": "karma start karma.conf.js --env=test",
+    "test:unit": "karma start karma.conf.js --single-run --env=test",
+    "test:e2e": "cucumber-js",
+    "test:e2e:watch": "./node_modules/.bin/watch 'features/**/*.feature' -c 'npm run test:e2e'",
     "dist": "npm run clean && npm run copy && webpack",
     "serve": "./node_modules/.bin/webpack-dev-server --dev",
     "fix-debug-lib": "cd node_modules/debug && make",
@@ -24,6 +28,7 @@
     "bower-webpack-plugin": "^0.1.9",
     "copyfiles": "^0.2.1",
     "css-loader": "^0.23.1",
+    "cucumber": "^0.9.5",
     "debug": "^2.2.0",
     "file-loader": "^0.8.5",
     "flowcheck": "^0.2.7",
@@ -51,6 +56,7 @@
     "style-loader": "^0.13.0",
     "url-loader": "^0.5.7",
     "webpack": "^1.12.14",
-    "webpack-dev-server": "^1.14.1"
+    "webpack-dev-server": "^1.14.1",
+    "zombie": "^4.2.1"
   }
 }
