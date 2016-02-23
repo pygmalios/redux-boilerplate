@@ -62,6 +62,7 @@ var devConfig = {
   ].concat(distConfig.entry),
 
   plugins: [
+    new webpack.HotModuleReplacementPlugin()
   ].concat(distConfig.plugins),
 
   module: {
