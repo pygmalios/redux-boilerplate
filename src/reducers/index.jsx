@@ -1,13 +1,16 @@
 import { combineReducers } from 'redux';
 
-import entity from 'reducers/entity.jsx';
-import app from 'reducers/components/app.jsx';
 import { routeReducer } from 'react-router-redux';
 
-let combinedReducers = combineReducers({
-  entity: entity,
-  app: app,
-  routing: routeReducer
-})
+function reducer(reducerPath) {
+  return require(`reducers/${reducerPath}.jsx`).default
+}
 
-export default combinedReducers
+let reducers = {
+  containers: combineReducers({
+    app: reducer('containers/app')
+  }),
+  routing: routeReducer
+};
+
+export default combineReducers(reducers)

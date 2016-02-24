@@ -7,6 +7,6 @@ describe('TestComponent', function() {
     let renderer = ReactTestUtils.createRenderer();
     renderer.render(<TestComponent />);
     let output = renderer.getRenderOutput();
-    expect(output.type).toBe('div');
+    expect(output.type).toBe('divs');
   });
 });

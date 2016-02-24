@@ -5,12 +5,14 @@ import React from 'react';
  * @param React.Component
  * @returns {*}
  */
-function renderChildrenWithProps(component: React.Component) {
+function renderChildrenWithProps(component) {
   return React.Children.map(component.props.children, (child) => {
-    return React.cloneElement(child, component.props.children);
+    let newComponentProps = component.props;
+    let newComponentChildren = React.Children
+      .toArray(newComponentProps.children)[0].props.children;
+
+    return React.cloneElement(child, newComponentProps, newComponentChildren);
   });
 }
-
-console.log(React.Component);
 
 export default renderChildrenWithProps;

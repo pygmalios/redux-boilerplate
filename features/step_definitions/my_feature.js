@@ -21,7 +21,7 @@ module.exports = function () {
     // matching groups are passed as parameters to the step definition
 
     var pageTitle = this.browser.text('title');
-    console.log(pageTitle);
+    console.log('title',pageTitle);
     if (title === pageTitle) {
       callback();
     } else {

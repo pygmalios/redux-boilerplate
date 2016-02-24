@@ -1,19 +1,16 @@
 import { actions } from 'actions/index.jsx';
 
 let defaultState = {
-  input: ''
+  test: 5
 };
 
 export default (state = defaultState, action) => {
 
   let nextState = Object.assign({}, state);
 
-  switch(action.type) {
+  console.log('CONTAINERS#APP# action', action);
 
-    case actions.COMPONENT.APP.INPUT.CHANGE: {
-      nextState.input = action.parameter.value
-      return nextState;
-    }
+  switch(action.type) {
 
     default:
       return nextState;

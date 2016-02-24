@@ -12,10 +12,10 @@ import RoutesFactory from './routes.jsx';
 import App from 'containers/AppComponent.jsx';
 
 let mapStateToProps = (state) => {
+  // mirror the way how reducers are combined
   return {
-    entity: state.entity,
-    app: state.app
-  }
+    state: Object.assign({}, state)
+  };
 };
 
 let mapDispatchToProps = (dispatch) => {

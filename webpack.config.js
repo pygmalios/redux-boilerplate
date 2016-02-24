@@ -26,7 +26,7 @@ var distConfig = {
 
   module: {
     loaders: {
-      jsx: ['babel-loader?'+JSON.stringify({presets:['es2015','react']})],
+      jsx: ['babel-loader?'+JSON.stringify({presets:['es2015','react'], plugins: []})],
       sass: ["style","css","sass?indentedSyntax"],
       scss: {
         test: /\.scss$/,

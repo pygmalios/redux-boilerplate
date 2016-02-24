@@ -1,39 +1,32 @@
 let actionCreators = {};
+let actions = {};
 
-let actions = {
-  ENTITY: {
-    ADD: 'ADD_ENTITY',
-    REMOVE: 'REMOVE_ENTITY'
-  },
-  COMPONENT: {
-    APP: {
-      INPUT: {
-        CHANGE: 'CHANGE_INPUT_APP_COMPONENT'
-      }
+function defaultActionHandler(actionType) {
+  return (parameter) => {
+    return (dispatch) => {
+      dispatch({
+        type: actionType,
+        parameter: parameter
+      })
     }
   }
-};
-
-actionCreators[actions.ENTITY.ADD] = function(parameter) {
-  return {
-    type: actions.ENTITY.ADD,
-    parameter: parameter
-  }
 }
 
-actionCreators[actions.ENTITY.REMOVE] = function(parameter) {
-  return {
-    type: actions.ENTITY.REMOVE,
-    parameter: parameter
-  }
+function defineAction(actionIdentifier, handler = defaultActionHandler) {
+  actions[actionIdentifier] = actionIdentifier;
+  actionCreators[actionIdentifier] =
+    (handler == defaultActionHandler)
+      ? defaultActionHandler(actionIdentifier) : handler
 }
 
-actionCreators[actions.COMPONENT.APP.INPUT.CHANGE] = function(parameter) {
-  return {
-    type: actions.COMPONENT.APP.INPUT.CHANGE,
-    parameter: parameter
-  }
-}
+var actionGroups = ['entity']
+
+actionGroups.forEach((actionGroup) => {
+  require(`actions/${actionGroup}.jsx`).default(defineAction, actionCreators)
+})
+
+console.log('actions', actions);
+console.log('actionCreators', actionCreators);
 
 export { actionCreators };
-export { actions }
+export { actions, actionCreators };
