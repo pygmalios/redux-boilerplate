@@ -1,0 +1,13 @@
+{
+  "extends": "airbnb",
+  "rules": {
+    "react/react-in-jsx-scope": 0,
+    "dot-notation": 0, // because of capitalized redux action names
+    "new-cap": 0 // same reason as above
+  },
+  "globals": {
+    "React": true,
+    "$": true,
+    "ReactDOM": true
+  }
+}

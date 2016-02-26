@@ -1,10 +1,7 @@
-import React from 'react';
-
-window.jQuery = window.$ = require('jquery');
+window.jQuery = window.$ = $;
 require('bootstrap-sass');
 require('styles/AppComponent.sass');
 
-import Test2 from 'components/Test2Component.jsx';
 import renderChildrenWithProps from 'helpers/renderChildrenWithProps.jsx';
 
 class App extends React.Component {
@@ -14,7 +11,7 @@ class App extends React.Component {
       <div>
         {renderChildrenWithProps(this)}
       </div>
-    )
+    );
   }
 
 }

@@ -1,18 +1,20 @@
 import { actions } from 'actions/index.jsx';
 
-let defaultState = {
-  test: 5
+const defaultState = {
+  test: 5,
 };
 
 export default (state = defaultState, action) => {
+  const nextState = Object.assign({}, state);
 
-  let nextState = Object.assign({}, state);
+  switch (action.type) {
 
-  console.log('CONTAINERS#APP# action', action);
-
-  switch(action.type) {
+    case actions['ENTITY_LOAD_START']: {
+      nextState.test++;
+      return nextState;
+    }
 
     default:
       return nextState;
   }
-}
+};

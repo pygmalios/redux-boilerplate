@@ -1,30 +1,24 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
 import { bindActionCreators } from 'redux';
 import { Provider, connect } from 'react-redux';
 import { Router } from 'react-router';
 
-import { store, history } from './store.jsx'
+import { store, history } from './store.jsx';
 import { actionCreators } from 'actions/index.jsx';
 
-import RoutesFactory from './routes.jsx';
+import routesFactory from './routes.jsx';
 
 import App from 'containers/AppComponent.jsx';
 
-let mapStateToProps = (state) => {
-  // mirror the way how reducers are combined
-  return {
-    state: Object.assign({}, state)
-  };
+const mapStateToProps = state => Object.assign({}, state);
+
+const mapDispatchToProps = dispatch => {
+  const actions = bindActionCreators(actionCreators, dispatch);
+  return { actions };
 };
 
-let mapDispatchToProps = (dispatch) => {
-  return { actions: bindActionCreators(actionCreators, dispatch) }
-}
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
-let ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
-
-let routes = RoutesFactory(ConnectedApp, store);
+const routes = routesFactory(ConnectedApp, store);
 
 ReactDOM.render(
   (

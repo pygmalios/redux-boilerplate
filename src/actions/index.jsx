@@ -1,32 +1,28 @@
-let actionCreators = {};
-let actions = {};
+const actionCreators = {};
+const actions = {};
 
 function defaultActionHandler(actionType) {
-  return (parameter) => {
-    return (dispatch) => {
-      dispatch({
-        type: actionType,
-        parameter: parameter
-      })
-    }
-  }
+  return (parameter) => (dispatch) => {
+    dispatch({
+      type: actionType,
+      parameter,
+    });
+  };
 }
 
 function defineAction(actionIdentifier, handler = defaultActionHandler) {
   actions[actionIdentifier] = actionIdentifier;
   actionCreators[actionIdentifier] =
-    (handler == defaultActionHandler)
-      ? defaultActionHandler(actionIdentifier) : handler
+    (handler === defaultActionHandler)
+      ? defaultActionHandler(actionIdentifier) : handler;
 }
 
-var actionGroups = ['entity']
+const actionGroups = ['entity'];
 
 actionGroups.forEach((actionGroup) => {
-  require(`actions/${actionGroup}.jsx`).default(defineAction, actionCreators)
-})
+  require(`actions/${actionGroup}.jsx`)
+    .default(defineAction, actionCreators);
+});
 
-console.log('actions', actions);
-console.log('actionCreators', actionCreators);
 
-export { actionCreators };
 export { actions, actionCreators };

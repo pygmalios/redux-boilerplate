@@ -25,6 +25,7 @@ var distConfig = {
   entry: ['./src/index.jsx'],
 
   module: {
+    preLoaders: [],
     loaders: {
       jsx: ['babel-loader?'+JSON.stringify({presets:['es2015','react'], plugins: []})],
       sass: ["style","css","sass?indentedSyntax"],
@@ -51,7 +52,12 @@ var distConfig = {
 
   plugins: [
     new BowerWebpackPlugin(),
-    new webpack.DefinePlugin(define)
+    new webpack.DefinePlugin(define),
+    new webpack.ProvidePlugin({
+      $: "jquery",
+      React: "react",
+      ReactDOM: "react-dom"
+    })
   ]
 }
 
@@ -66,6 +72,11 @@ var devConfig = {
   ].concat(distConfig.plugins),
 
   module: {
+
+    preLoaders: [
+      {test: /\.jsx$/, loaders: ["eslint-loader"], exclude: /node_modules/}
+    ].concat(distConfig.module.preLoaders),
+
     loaders: {
       jsx: ['react-hot'].concat(distConfig.module.loaders.jsx).concat(['flowcheck']),
       sass: ["style","css?sourceMap","sass?indentedSyntax&sourceMap"]
@@ -80,6 +91,10 @@ var config = {
   output: {
     path: __dirname + '/dist',
     filename: 'bundle.js',
+  },
+
+  eslint: {
+    configFile: './.eslintrc'
   },
 
   devtool: 'source-map',
@@ -97,6 +112,9 @@ var config = {
   plugins: env.isDev() ? devConfig.plugins : distConfig.plugins,
 
   module: {
+
+    preLoaders: (env.isDev() ? devConfig.module.preLoaders : []),
+
     loaders: [
 
       {
