@@ -8,6 +8,7 @@
   "globals": {
     "React": true,
     "$": true,
-    "ReactDOM": true
+    "ReactDOM": true,
+    "CONFIG": true
   }
 }

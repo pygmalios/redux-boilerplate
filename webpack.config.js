@@ -1,5 +1,7 @@
-var webpack = require('webpack');
-var BowerWebpackPlugin = require('bower-webpack-plugin');
+const webpack = require('webpack');
+const BowerWebpackPlugin = require('bower-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs');
 
 var argv = require('minimist')(process.argv.slice(2));
 console.dir(argv);
@@ -13,13 +15,12 @@ var fail = function(message) {
   throw new Error(message)
 }
 
-var define = {
-  CONFIG: JSON.stringify((
-    require('./environments.config.js')[env.name] || fail('Environment '+ env.name + ' does not exist in environments.config.js')
-  ))
-}
+var envConfig = require('./environments.config.js')[env.name] || fail('Environment '+ env.name + ' does not exist in environments.config.js');
+var locales = fs.readdirSync('./src/translations').filter(f => f.endsWith('.json')).map(f => f.substring(0, f.indexOf('-')));
 
-console.log('define', define);
+var define = {
+  CONFIG: JSON.stringify(Object.assign({}, envConfig, {locales: locales}))
+}
 
 var distConfig = {
   entry: ['./src/index.jsx'],
@@ -57,6 +58,10 @@ var distConfig = {
       $: "jquery",
       React: "react",
       ReactDOM: "react-dom"
+    }),
+    new HtmlWebpackPlugin({
+      locales: locales.map(l => 'Intl.~locale.' + l).join(','),
+      template: 'src/index.hbs'
     })
   ]
 }
@@ -128,10 +133,15 @@ var config = {
         loaders: (env.isDev() ? devConfig.module.loaders.sass : distConfig.module.loaders.sass)
       },
 
+      {
+        test: /\.hbs$/,
+        loader: "handlebars-template-loader"
+      },
+
       distConfig.module.loaders.scss
 
     ].concat(distConfig.module.loaders.commonLoaders)
-  },
+  }
 };
 
 console.log(config);

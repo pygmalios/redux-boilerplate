@@ -1,0 +1,4 @@
+{
+  "greeting": "Nazdar",
+  "sentence": "{name} odfotila {numPhotos, plural, =0 {ziadne fotky} =1 {jednu fotku} =2 {# fotky} =3 {# fotky} =4 {# fotky} other {# fotiek}} on {takenDate, date, long}."
+}
