@@ -5,14 +5,13 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf dist",
-    "copy": "copyfiles -f ./src/index.html ./dist",
     "test": "npm run test:unit && npm run test:e2e",
     "test:unit:watch": "karma start karma.conf.js --env=test",
     "test:unit": "karma start karma.conf.js --single-run --env=test",
     "test:e2e": "cucumber-js",
     "test:e2e:watch": "./node_modules/.bin/watch 'features/**/*.feature' -c 'npm run test:e2e'",
-    "dist": "npm run clean && npm run && webpack -p",
-    "serve": "./node_modules/.bin/webpack-dev-server --dev --inline",
+    "dist": "npm run clean && webpack -p",
+    "serve": "./node_modules/.bin/webpack-dev-server --dev",
     "fix-debug-lib": "cd node_modules/debug && make",
     "postinstall": "npm run fix-debug-lib"
   },

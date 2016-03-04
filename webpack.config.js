@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const fs = require('fs');
 
 var argv = require('minimist')(process.argv.slice(2));
-console.dir(argv);
 
 var env = {
   isDev: function() { return argv.dev == true },
@@ -146,7 +145,5 @@ var config = {
     ].concat(distConfig.module.loaders.commonLoaders)
   }
 };
-
-console.log(config);
 
 module.exports = config;
