@@ -89,9 +89,12 @@ var devConfig = {
   }
 };
 
+const currentConfig = env.isDev() ? devConfig : distConfig;
+
 var config = {
 
-  entry: (env.isDev() ? devConfig.entry : distConfig.entry),
+
+  entry: currentConfig.entry,
 
   output: {
     path: __dirname + '/dist',
@@ -114,23 +117,23 @@ var config = {
     root: __dirname + '/src/'
   },
 
-  plugins: env.isDev() ? devConfig.plugins : distConfig.plugins,
+  plugins: currentConfig.plugins,
 
   module: {
 
-    preLoaders: (env.isDev() ? devConfig.module.preLoaders : []),
+    preLoaders: currentConfig.module.preLoaders,
 
     loaders: [
 
       {
         test: /.jsx?$/,
-        loaders: (env.isDev() ? devConfig.module.loaders.jsx : distConfig.module.loaders.jsx), // react-hot must appear before babel
+        loaders: currentConfig.module.loaders.jsx, // react-hot must appear before babel
         exclude: /node_modules/
       },
 
       {
         test: /\.sass$/,
-        loaders: (env.isDev() ? devConfig.module.loaders.sass : distConfig.module.loaders.sass)
+        loaders: currentConfig.module.loaders.sass
       },
 
       {
