@@ -10,7 +10,7 @@ class Test2Component extends React.Component {
           <h1
             onClick={this.props.actions.ENTITY_SHOW}
           >
-            Hello {this.props.state.containers.app.test}
+            Hello
           </h1>
           {renderChildrenWithProps(this)}
 

@@ -1,8 +1,9 @@
-var webpack = require('webpack');
-var BowerWebpackPlugin = require('bower-webpack-plugin');
+const webpack = require('webpack');
+const BowerWebpackPlugin = require('bower-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const fs = require('fs');
 
 var argv = require('minimist')(process.argv.slice(2));
-console.dir(argv);
 
 var env = {
   isDev: function() { return argv.dev == true },
@@ -13,13 +14,12 @@ var fail = function(message) {
   throw new Error(message)
 }
 
-var define = {
-  CONFIG: JSON.stringify((
-    require('./environments.config.js')[env.name] || fail('Environment '+ env.name + ' does not exist in environments.config.js')
-  ))
-}
+var envConfig = require('./environments.config.js')[env.name] || fail('Environment '+ env.name + ' does not exist in environments.config.js');
+var locales = fs.readdirSync('./src/translations').filter(f => f.endsWith('.json')).map(f => f.substring(0, f.indexOf('-')));
 
-console.log('define', define);
+var define = {
+  CONFIG: JSON.stringify(Object.assign({}, envConfig, {locales: locales}))
+}
 
 var distConfig = {
   entry: ['./src/index.jsx'],
@@ -57,6 +57,10 @@ var distConfig = {
       $: "jquery",
       React: "react",
       ReactDOM: "react-dom"
+    }),
+    new HtmlWebpackPlugin({
+      locales: locales.map(l => 'Intl.~locale.' + l).join(','),
+      template: 'src/index.hbs'
     })
   ]
 }
@@ -84,9 +88,12 @@ var devConfig = {
   }
 };
 
+const currentConfig = env.isDev() ? devConfig : distConfig;
+
 var config = {
 
-  entry: (env.isDev() ? devConfig.entry : distConfig.entry),
+
+  entry: currentConfig.entry,
 
   output: {
     path: __dirname + '/dist',
@@ -109,31 +116,34 @@ var config = {
     root: __dirname + '/src/'
   },
 
-  plugins: env.isDev() ? devConfig.plugins : distConfig.plugins,
+  plugins: currentConfig.plugins,
 
   module: {
 
-    preLoaders: (env.isDev() ? devConfig.module.preLoaders : []),
+    preLoaders: currentConfig.module.preLoaders,
 
     loaders: [
 
       {
         test: /.jsx?$/,
-        loaders: (env.isDev() ? devConfig.module.loaders.jsx : distConfig.module.loaders.jsx), // react-hot must appear before babel
+        loaders: currentConfig.module.loaders.jsx, // react-hot must appear before babel
         exclude: /node_modules/
       },
 
       {
         test: /\.sass$/,
-        loaders: (env.isDev() ? devConfig.module.loaders.sass : distConfig.module.loaders.sass)
+        loaders: currentConfig.module.loaders.sass
+      },
+
+      {
+        test: /\.hbs$/,
+        loader: "handlebars-template-loader"
       },
 
       distConfig.module.loaders.scss
 
     ].concat(distConfig.module.loaders.commonLoaders)
-  },
+  }
 };
-
-console.log(config);
 
 module.exports = config;
