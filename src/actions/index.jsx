@@ -17,7 +17,7 @@ function defineAction(actionIdentifier, handler = defaultActionHandler) {
       ? defaultActionHandler(actionIdentifier) : handler;
 }
 
-const actionGroups = ['entity'];
+const actionGroups = ['entity', 'locales'];
 
 actionGroups.forEach((actionGroup) => {
   require(`actions/${actionGroup}.jsx`)
