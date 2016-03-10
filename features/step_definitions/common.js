@@ -1,4 +1,8 @@
+"use strict";
+
 module.exports = function () {
+
+
   this.Given(/^I am on the Cucumber.js GitHub repository$/, function (callback) {
     // Express the regexp above with the code you wish you had.
     // `this` is set to a World instance.
@@ -10,7 +14,19 @@ module.exports = function () {
     // be executed by Cucumber.
   });
 
+  this.Given(/^I am on the "(.*)" page$/, function (page, callback) {
+
+    this.visit(`http://localhost:8080${page}`, callback);
+  });
+
   this.When(/^I go to the README file$/, function (callback) {
+    // Express the regexp above with the code you wish you had. Call callback() at the end
+    // of the step, or callback.pending() if the step is not yet implemented:
+
+    callback();
+  });
+
+  this.When(/^I just look around$/, function (callback) {
     // Express the regexp above with the code you wish you had. Call callback() at the end
     // of the step, or callback.pending() if the step is not yet implemented:
 
@@ -28,4 +44,13 @@ module.exports = function () {
       callback(new Error("Expected to be on page with title " + title));
     }
   });
+
+  this.Then(/^I should see "(.*)" as the "(.*)"/, function (textToFind, selector, callback) {
+
+    this.browser.assert.text(this.testSelector(selector), textToFind);
+
+    callback();
+  });
 };
+
+

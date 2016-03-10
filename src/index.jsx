@@ -19,13 +19,6 @@ CONFIG.locales.forEach(lang => {
   addLocaleData(locale);
 });
 
-/**
- * Set locale and extract it's messages (interface texts)
- */
-// const locale = 'en-US';
-const locale = 'sk-SK';
-import messages from './translations/all';
-const localisedMessages = messages[locale];
 
 const mapStateToProps = state => Object.assign({}, state);
 
@@ -38,14 +31,28 @@ const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 const routes = routesFactory(ConnectedApp, store);
 
+
+/**
+ * Load locales for react-intl
+ */
+CONFIG.locales.forEach(lang => {
+  const locale = require(`react-intl/lib/locale-data/${lang}`);
+  addLocaleData(locale);
+});
+function mapStateToPropsIntlProvider(state) {
+  const { locale, messages } = state.locales;
+  return { locale, messages };
+}
+const ConnectedIntlProvider = connect(mapStateToPropsIntlProvider)(IntlProvider);
+
 ReactDOM.render(
   (
     <Provider store={store}>
-      <IntlProvider locale={locale} messages={localisedMessages}>
+      <ConnectedIntlProvider>
         <Router history={history}>
           {routes}
         </Router>
-      </IntlProvider>
+      </ConnectedIntlProvider>
     </Provider>
   ),
   document.getElementById('app')

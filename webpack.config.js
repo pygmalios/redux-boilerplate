@@ -127,7 +127,7 @@ var config = {
       {
         test: /.jsx?$/,
         loaders: currentConfig.module.loaders.jsx, // react-hot must appear before babel
-        exclude: /node_modules/
+        exclude: /(node_modules|bower_components)/
       },
 
       {
